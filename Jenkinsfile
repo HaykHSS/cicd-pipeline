@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from Git repository
+                // Chec kout code from Git repository
                 git branch: "${BRANCH_NAME}", credentialsId: 'jenkinsId', url: 'https://github.com/HaykHSS/cicd-pipeline.git'
             }
         }
