@@ -1,5 +1,9 @@
 pipeline {
     agent any
+
+    environment {
+        PATH = "$PATH:/usr/local/bin" // Update this path to the directory where Docker is installed
+    }
     
     tools {
         // Define NodeJS tool installation
