@@ -1,3 +1,5 @@
+def dockerImage
+
 pipeline {
     agent any
 
@@ -40,7 +42,6 @@ pipeline {
                 
                 // Build Docker images based on the branch
                 script {
-                    def dockerImage
                     if (env.BRANCH_NAME == 'main') {
                         dockerImage = 'nodemain:v1.0'
                     } else if (env.BRANCH_NAME == 'dev') {
