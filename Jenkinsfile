@@ -4,43 +4,37 @@ pipeline {
     agent any
 
     environment {
-        PATH = "$PATH:/usr/local/bin" // Update this path to the directory where Docker is installed
+        PATH = "$PATH:/usr/local/bin"
     }
     
     tools {
-        // Define NodeJS tool installation
         nodejs "node"
     }
     
     stages {
         stage('Checkout') {
             steps {
-                // Chec kout code from Git repository
                 git branch: "${BRANCH_NAME}", credentialsId: 'jenkinsId', url: 'https://github.com/HaykHSS/cicd-pipeline.git'
             }
         }
         
         stage('Build') {
             steps {
-                // Build NodeJS application
                 sh 'npm install'
             }
         }
         
         stage('Test') {
             steps {
-                // Test NodeJS application
                 sh 'npm test'
             }
         }
         
         stage('Build Docker Image') {
             steps {
-                // Stop and remove previously running containers
                 sh 'docker stop $(docker ps -q) || true'
                 sh 'docker rm $(docker ps -aq) || true'
                 
-                // Build Docker images based on the branch
                 script {
                     if (env.BRANCH_NAME == 'main') {
                         dockerImage = 'nodemain:v1.0'
@@ -54,7 +48,6 @@ pipeline {
         
         stage('Deploy') {
             steps {
-                // Run application in Docker container based on the branch
                 script {
                     def exposePort
                     if (env.BRANCH_NAME == 'main') {
