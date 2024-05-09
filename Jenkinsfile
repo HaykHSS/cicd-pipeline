@@ -1,5 +1,11 @@
+def dockerImage
+
 pipeline {
     agent any
+
+    environment {
+        PATH = "$PATH:/usr/local/bin" // Update this path to the directory where Docker is installed
+    }
     
     tools {
         // Define NodeJS tool installation
@@ -9,7 +15,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from Git repository
+                // Chec kout code from Git repository
                 git branch: "${BRANCH_NAME}", credentialsId: 'jenkinsId', url: 'https://github.com/HaykHSS/cicd-pipeline.git'
             }
         }
@@ -36,7 +42,6 @@ pipeline {
                 
                 // Build Docker images based on the branch
                 script {
-                    def dockerImage
                     if (env.BRANCH_NAME == 'main') {
                         dockerImage = 'nodemain:v1.0'
                     } else if (env.BRANCH_NAME == 'dev') {
